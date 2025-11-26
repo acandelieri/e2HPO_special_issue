@@ -4,7 +4,7 @@ library(mlrMBO)
 library(lhs)
 
 # setting
-datasets <- c("banknote_authentication", "blood_transfusion", "phoneme", "wdbc")
+datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
 mod <- "svm" # possible values: mlp, rf, svm
 
 n.init <- 10
@@ -13,7 +13,7 @@ nRuns <- 5
 
 path <- getwd()
 # path <- gsub(" ", "\ ", path)
-n_feat <- c(7, 4, 4, 5, 30)
+n_feat <- c(4, 4, 22, 5, 30 )
 
 
 if(mod=="svm"){

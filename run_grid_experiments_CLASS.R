@@ -1,11 +1,11 @@
 rm(list=ls()) ; graphics.off(); cat("\014")
 
-datasets <- c("banknote_authentication", "blood_transfusion", "phoneme", "wdbc")
+datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
 mod <- "mlp"
 
 path <- getwd()
 
-n_feat <- c(7, 4, 4, 5, 30)
+n_feat <- c(4, 4, 22, 5, 30)
 
 
 if(mod=="svm"){

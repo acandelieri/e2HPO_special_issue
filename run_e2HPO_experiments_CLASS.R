@@ -11,8 +11,8 @@ max.evals <- 40
 nRuns <- 5
 
 
-n_feat <- c(7, 4, 4, 5, 30)
-datasets <-  c("banknote_authentication", "blood_transfusion", "phoneme", "wdbc") 
+datasets <-  c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc") 
+n_feat <- c(4, 4, 22, 5, 30)
 
 path <- getwd()
 kernel.type <- "matern3_2"
