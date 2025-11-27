@@ -1,7 +1,7 @@
 rm(list=ls()) ; graphics.off(); cat("\014")
 
 datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
-mod <- "mlp"
+mod <- "svm" # possible values: mlp, rf, svm
 
 path <- getwd()
 
@@ -41,7 +41,7 @@ for(d in datasets){
       file.remove(paste0(path, "/emissions.csv"))
     }
     
-    if(mod=="svc"){
+    if(mod=="svm"){
       par1 <- 10^grid[i,1]
       par2 <- 10^grid[i,2]
     }else if(mod=="rf"){
