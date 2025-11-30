@@ -1,7 +1,7 @@
 rm(list=ls()) ; graphics.off(); cat("\014")
 
 datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
-mod <- "svm" # possible values: mlp, rf, svm
+mod <- "rf" # possible values: mlp, rf, svm
 
 path <- getwd()
 
