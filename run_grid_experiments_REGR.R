@@ -1,8 +1,13 @@
 rm(list=ls()) ; graphics.off(); cat("\014")
 
-mod <- "rf" # possible values "mlp", rf", "svm"
+#************************************************************************************************
+# Running machine configuration
+#************************************************************************************************
+path <- "." # if running on Ubuntu machine
+# path <- getwd() # if running on Windows machine
+#************************************************************************************************
 
-path <- getwd()
+mod <- "rf" # possible values "mlp", rf", "svm"
 
 datasets <- c("boston","origin_of_music","space_ga","sulfur","wind")
 n_feat <- c(14, 118, 7, 7, 15)
@@ -62,7 +67,7 @@ for(d in datasets){
                      stdout = T)
       rmse <- as.numeric(gsub("\f", "", out[length(out)]))
     }else{
-      stop("at line 67 specify the path to your python3 environment and comment line 66")
+      # stop("at line 67 specify the path to your python3 environment and comment line 66")
       out <- system(command=paste0("/home/pyndaryus/.virtualenvs/.venv/bin/python3", " ",path,"/",mod, "_REGR.py ",par1," ",par2, " ", d," ",tcol," ",path ),
                     intern=T,
                     ignore.stderr = T,

@@ -3,17 +3,25 @@ rm(list=ls()) ; graphics.off(); cat("\014")
 library(mlrMBO)
 library(lhs)
 
+#************************************************************************************************
+# Running machine configuration
+#************************************************************************************************
+path <- "." # if running on Ubuntu machine
+# path <- getwd() # if running on Windows machine
+#************************************************************************************************
+
+
 # setting
 datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
-mod <- "svm" # possible values: mlp, rf, svm
+n_feat <- c(4, 4, 22, 5, 30 )
 
-n.init <- 10
-iters <- 30
+mod <- "rf" # possible values: mlp, rf, svm
+
+n.init <- 5
+iters <- 20
 nRuns <- 5
 
-path <- getwd()
-# path <- gsub(" ", "\ ", path)
-n_feat <- c(4, 4, 22, 5, 30 )
+
 
 
 if(mod=="svm"){
@@ -45,7 +53,7 @@ if(mod=="svm"){
 
 for(d in datasets){
 
-  cat("\014>",d,"\n")
+  cat("\014*****",d,"*****\n\n")
   # main
   
   obj.fun = makeSingleObjectiveFunction(
@@ -77,7 +85,7 @@ for(d in datasets){
         acc <- as.numeric(gsub("\f", "", out[length(out)]))
         
       }else{
-        stop("at line 78 specify the path to your python3 environment and comment line 77")
+        # stop("at line 78 specify the path to your python3 environment and comment line 77")
         out <- system(command=paste0("/home/pyndaryus/.virtualenvs/.venv/bin/python3"," ",path,"/",mod,"_CLASS.py ",par1," ",par2, " ", d),
                        intern=T, 
                        ignore.stderr = T,
@@ -101,7 +109,7 @@ for(d in datasets){
   )
   
   for(s in 1:nRuns){
-    cat("> ",s,"\n[")
+    cat("> Seed =",s,"\n  * initializing design [")
     energy <<- c()
     
     des = generateDesign(n = n.init, par.set = getParamSet(obj.fun), fun = lhs::randomLHS)
@@ -114,13 +122,15 @@ for(d in datasets){
     control = setMBOControlTermination(control, iters = iters)
     control = setMBOControlInfill(control, crit = makeMBOInfillCritEI())
     
-    res.mbo = mbo(obj.fun, design = des, learner = surr.km, control = control, show.info = TRUE)
+    cat("  * sequential queries [")
+    res.mbo = mbo(obj.fun, design = des, learner = surr.km, control = control, show.info = FALSE)
+    cat("]\n")
     
     df <- cbind(rep(s,n.init+iters), getOptPathX(res.mbo$opt.path), getOptPathY(res.mbo$opt.path), energy)
     if(s==1){
       final.df <- df
     }else{final.df <- rbind(final.df, df)}
-    
+
   }
   
   #save results

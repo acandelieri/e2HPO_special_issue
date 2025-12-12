@@ -1,10 +1,15 @@
 rm(list=ls()) ; graphics.off(); cat("\014")
 
-datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
+#************************************************************************************************
+# Running machine configuration
+#************************************************************************************************
+path <- "." # if running on Ubuntu machine
+# path <- getwd() # if running on Windows machine
+#************************************************************************************************
+
 mod <- "rf" # possible values: mlp, rf, svm
 
-path <- getwd()
-
+datasets <- c("banknote_authentication", "blood_transfusion", "heloc", "phoneme", "wdbc")
 n_feat <- c(4, 4, 22, 5, 30)
 
 
@@ -60,7 +65,7 @@ for(d in datasets){
                       stdout = T)
       acc <- as.numeric(gsub("\f", "", out[length(out)]))
     }else{
-      stop("at line 67 specify the path to your python3 environment and comment line 66")
+      # stop("at line 67 specify the path to your python3 environment and comment line 66")
       out <- system(command=paste0("/home/pyndaryus/.virtualenvs/.venv/bin/python3", " ",path,"/",mod, "_CLASS.py ",par1," ",par2, " ", d),
                      intern=T,
                      ignore.stderr = T,
