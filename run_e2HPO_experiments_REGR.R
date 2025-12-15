@@ -2,19 +2,25 @@ rm(list=ls()); graphics.off(); cat("\014")
 
 library(lhs)
 library(DiceKriging)
-source("MISO-AGP_2.R")
+source("MISO-AGP_3_patched.R")
 
-mod <- "svm" # possible values "mlp", rf", "svm"
+#************************************************************************************************
+# Running machine configuration
+#************************************************************************************************
+path <- "." # if running on Ubuntu machine
+# path <- getwd() # if running on Windows machine
+#************************************************************************************************
 
-n.initial <- 10
-max.evals <- 40
+mod <- "rf" # possible values "mlp", rf", "svm"
+
+n.initial <- 5+5 # 5 for each source
+max.evals <- 25 # including initial
 nRuns <- 5
 
 datasets <- c("boston","origin_of_music","space_ga","sulfur","wind")
 n_feat <- c(14, 118, 7, 7, 15)
 target_col <- c("MEDV","latitude","ln_votes_pop","y1","MAL")
 
-path <- getwd()
 kernel.type <- "matern3_2"
 
 
@@ -46,8 +52,8 @@ train_validate <- function( dataset, par1, par2) {
     rmse <- suppressWarnings(as.numeric(gsub(",", "", out[length(out)])))
     
   }else{
-    stop("at line 50 specify the path to your python3 environment and comment line 49")
-    out <- system(command=paste0("/home/pyndaryus/.virtualenvs/.venv/bin/python3", " ",path,"/",mod, "_REGR.py ",par1," ",par2, " ", dataset),
+    # stop("at line 50 specify the path to your python3 environment and comment line 49")
+    out <- system(command=paste0("/home/pyndaryus/.virtualenvs/.venv/bin/python3", " ",path,"/",mod, "_REGR.py ",par1," ",par2, " ", dataset," ",tcol),
                    intern=T,
                    ignore.stderr = T,
                    ignore.stdout = F)
@@ -94,13 +100,12 @@ problem.setup = list( search.space = cbind(x.min,x.max), min.problem=T, fs=list(
 for(dataset.name in datasets){
   
   tcol <- target_col[which(datasets==dataset.name)]
-  cat("> dataset:", dataset.name, "target var:", tcol, "\n")
-  
+  cat("\014*****", dataset.name,"*****\n\n")
   
   final.RES <- NULL
   for(j in 1:nRuns){
     
-    cat(">", j, ": [")
+    cat("> Seed =", j, ":\n  * Initializing: [")
     set.seed(j)
   
     RES <- maximinLHS(n.initial, 2)
@@ -119,6 +124,7 @@ for(dataset.name in datasets){
         fe <- rbind(fe, fs2(RES[i,], dataset.name))
       }
     }
+    cat("]\n")
   
     RES <- data.frame( source=c(rep("full", floor(n.initial/2)), rep("redux", ceiling(n.initial/2))), 
                 RES, rmse = fe[,1], energy = fe[,2])
@@ -131,6 +137,7 @@ for(dataset.name in datasets){
   
     s_ <- c("full", "redux")
     
+    cat("  * Sequential queries [")
     while( nrow(RES)<max.evals ) {
       cat("=")
       # update GPs for sources
@@ -138,11 +145,11 @@ for(dataset.name in datasets){
         if( length(unique(RES$rmse[which(RES$source==s)]))==1 ) {
           f.GPs[[s]] <- km( design=RES[which(RES$source==s),2:3],
                             response=RES$rmse[which(RES$source==s)]+rnorm(sum(RES$source==s),0,10^-8),
-                            covtype=kernel.type, nugget.estim=T, control=list(trace=0) )   
+                            covtype=kernel.type, nugget.estim=T, control=list(trace=F) )   
         } else {
           f.GPs[[s]] <- km( design=RES[which(RES$source==s),2:3],
                           response=RES$rmse[which(RES$source==s)],
-                          covtype=kernel.type, nugget.estim=T, control=list(trace=0) ) 
+                          covtype=kernel.type, nugget.estim=T, control=list(trace=F) ) 
         }
       }
       
@@ -172,7 +179,7 @@ for(dataset.name in datasets){
       }
       next.query <- next_pair( GPs=f.GPs, GPs.costs=c.GPs, min.problem=T,
                              scale.costs=F, f.best=y.abs, search.space=cbind(x.min, x.max),
-                             m=1, epsilon=NULL, beta_=NULL, tot.evals=300, delta_=0.1 )
+                             m=1, beta_=NULL, tot.evals=300, delta_=0.1 )
     
   
       # evaluate (s_,x_)

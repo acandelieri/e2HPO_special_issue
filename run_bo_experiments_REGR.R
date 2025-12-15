@@ -20,7 +20,7 @@ datasets <- c("boston","origin_of_music","space_ga","sulfur","wind")
 n_feat <- c(14, 118, 7, 7, 15)
 target_col <- c("MEDV","latitude","ln_votes_pop","y1","MAL")
 n.init <- 5
-iters <- 20
+iters <- 20 # sequential queries
 nRuns <- 5
 
 
