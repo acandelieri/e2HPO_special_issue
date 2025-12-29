@@ -17,9 +17,9 @@ n.initial <- 5+5 # 5 for each source
 max.evals <- 25 # including initial
 nRuns <- 5
 
-datasets <- c("boston","origin_of_music","space_ga","sulfur","wind")
-n_feat <- c(14, 118, 7, 7, 15)
-target_col <- c("MEDV","latitude","ln_votes_pop","y1","MAL")
+datasets <- c("boston","space_ga","sulfur","wind")
+n_feat <- c(14, 7, 7, 15)
+target_col <- c("MEDV","ln_votes_pop","y1","MAL")
 
 kernel.type <- "matern3_2"
 

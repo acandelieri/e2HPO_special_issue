@@ -9,9 +9,9 @@ path <- "." # if running on Ubuntu machine
 
 mod <- "rf" # possible values "mlp", rf", "svm"
 
-datasets <- c("boston","origin_of_music","space_ga","sulfur","wind")
-n_feat <- c(14, 118, 7, 7, 15)
-target_col <- c("MEDV","latitude","ln_votes_pop","y1","MAL")
+datasets <- c("boston","space_ga","sulfur","wind")
+n_feat <- c(14, 7, 7, 15)
+target_col <- c("MEDV","ln_votes_pop","y1","MAL")
 
 
 if(mod=="svm"){
