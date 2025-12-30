@@ -7,7 +7,7 @@ path <- "." # if running on Ubuntu machine
 # path <- getwd() # if running on Windows machine
 #************************************************************************************************
 
-mod <- "rf" # possible values "mlp", rf", "svm"
+mod <- "svm" # possible values "mlp", rf", "svm"
 
 datasets <- c("boston","space_ga","sulfur","wind")
 n_feat <- c(14, 7, 7, 15)
