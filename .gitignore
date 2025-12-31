@@ -4,6 +4,7 @@
 .Ruserdata
 _charts_.R
 _tables_.R
+_other_charts_.R
 FIGURES_CLASS
 FIGURES_REGR
 distribution_target_vars.png
