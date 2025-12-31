@@ -11,7 +11,7 @@ path <- "." # if running on Ubuntu machine
 # path <- getwd() # if running on Windows machine
 #************************************************************************************************
 
-mod <- "mlp" # possible values "mlp", rf", "svm"
+mod <- "svm" # possible values "mlp", rf", "svm"
 
 n.initial <- 5+5 # 5 for each source
 max.evals <- 25 # including initial
