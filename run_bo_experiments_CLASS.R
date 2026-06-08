@@ -18,7 +18,7 @@ n_feat <- c(4, 4, 22, 5, 30 )
 mod <- "rf" # possible values: mlp, rf, svm
 
 n.init <- 5
-iters <- 20
+iters <- 40
 nRuns <- 5
 
 

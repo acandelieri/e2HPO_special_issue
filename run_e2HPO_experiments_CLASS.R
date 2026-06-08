@@ -15,7 +15,7 @@ path <- "." # if running on Ubuntu machine
 mod <- "rf" # mlp, rf, svm
 
 n.initial <- 5+5 # five on each source
-max.evals <- 25 # initial + sequential
+max.evals <- 45 # initial + sequential
 nRuns <- 5
 
 

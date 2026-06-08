@@ -11,10 +11,10 @@ path <- "." # if running on Ubuntu machine
 # path <- getwd() # if running on Windows machine
 #************************************************************************************************
 
-mod <- "svm" # possible values "mlp", rf", "svm"
+mod <- "rf" # possible values "mlp", rf", "svm"
 
 n.initial <- 5+5 # 5 for each source
-max.evals <- 25 # including initial
+max.evals <- 45 # including initial
 nRuns <- 5
 
 datasets <- c("boston","space_ga","sulfur","wind")

@@ -14,13 +14,13 @@ path <- "." # if running on Ubuntu machine
 #************************************************************************************************
 
 
-mod <- "svm" # possible values "mlp", rf", "svm"
+mod <- "rf" # possible values "mlp", rf", "svm"
 
 datasets <- c("boston","space_ga","sulfur","wind")
 n_feat <- c(14, 7, 7, 15)
 target_col <- c("MEDV","ln_votes_pop","y1","MAL")
 n.init <- 5
-iters <- 20 # sequential queries
+iters <- 40 # sequential queries
 nRuns <- 5
 
 
